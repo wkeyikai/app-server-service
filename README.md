@@ -1,3 +1,5 @@
-# server-service
+# app-server-service
 (1)npm i
-(2)node index
+(2)npm start
+# package
+npm run build
