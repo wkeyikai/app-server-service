@@ -9,6 +9,8 @@ const path = require('path')
 const url = require('url')
 const express = require('./express-server.js')
 
+let trayIcon = null
+
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {
@@ -61,6 +63,7 @@ function createWindow() {
   // When Window Close.
   win.on('closed', () => {
     win = null
+    trayIcon = null
   })
 
   // Create Tray
@@ -69,7 +72,6 @@ function createWindow() {
 }
 
 function createTray() {
-  let appIcon = null
   const iconPath = path.join(__dirname, 'static/cc.ico')
 
   const contextMenu = Menu.buildFromTemplate([{
@@ -87,17 +89,17 @@ function createTray() {
   }
   ]);
 
-  appIcon = new Tray(iconPath)
-  appIcon.setToolTip('cc')
-  appIcon.setContextMenu(contextMenu)
-  appIcon.on('click', () => {
+  trayIcon = new Tray(iconPath)
+  trayIcon.setToolTip('cc')
+  trayIcon.setContextMenu(contextMenu)
+  trayIcon.on('click', () => {
     win.isVisible() ? win.hide() : win.show()
   })
   // win.on('show', () => {
-  //   appIcon.setHighlightMode('always')
+  //   trayIcon.setHighlightMode('always')
   // })
   // win.on('hide', () => {
-  //   appIcon.setHighlightMode('never')
+  //   trayIcon.setHighlightMode('never')
   // })
 }
 
