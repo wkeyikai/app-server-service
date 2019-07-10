@@ -3,7 +3,8 @@ const app = express()
 
 const config = require('./config')
 
-// app.use(express.static(__dirname + '/view'))
+const path = `http://localhost:${config.port}/`
+app.use(express.static(__dirname + '/view'))
 
 app.get('/', function (req, res) {
   res.send('Hello World')
@@ -18,5 +19,9 @@ app.get('/Hello', function (req, res) {
 })
 
 app.listen(config.port,()=>{
-  console.log('server is running...', `http://localhost:${config.port}/`)
+  console.log('server is running...', path)
 })
+
+module.exports = {
+  path
+}
