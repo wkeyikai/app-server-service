@@ -5,7 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . test --out=dist --overwrite --platform=win32 --arch=x64 --asar=true -icon=cc.ico --ignore=node_modules/electron-* --electron-version=5.0.6 --version-string.CompanyName=test --version-string.ProductName=test",
+    "build": "electron-packager . test --out=dist --overwrite --platform=win32 --arch=x64 --asar --icon=./static/cc.ico --ignore=node_modules/electron-* --electron-version=5.0.6 --version-string.CompanyName=test --version-string.ProductName=test",
     "pack": "grunt"
   },
   "repository": {

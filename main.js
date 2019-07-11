@@ -2,7 +2,8 @@ const {
   app,
   BrowserWindow,
   Tray,
-  Menu
+  Menu,
+  dialog
 } = require('electron')
 
 const path = require('path')
@@ -12,6 +13,10 @@ const express = require('./express-server.js')
 let trayIcon = null
 
 app.on('ready', createWindow)
+
+app.on('browser-window-created', (e, window) => {
+  window.setMenu(null)
+})
 
 app.on('window-all-closed', () => {
   // darwin = MacOS
@@ -34,14 +39,18 @@ function createWindow() {
     width: 400,
     height: 400,
     maximizable: false,
+    skipTaskbar: true,
+    toolbar: false
     // frame: false
     // show: false
   })
-  win.setMenu(null)
-  //win.setMenuBarVisibility(false)
-  //win.removeMenu()
+
+  // win.setMenu(null)
+  // win.setMenuBarVisibility(false)
+  // win.removeMenu()
   // var menu = Menu.buildFromTemplate([])
   // Menu.setApplicationMenu(menu)
+
   win.loadURL(express.path)
   // win.loadURL(url.format({
   //   pathname: path.join(__dirname, 'index.html'),
@@ -53,15 +62,14 @@ function createWindow() {
   // })
 
   // Open DevTools.
-  //win.webContents.openDevTools()
-
+  // win.webContents.openDevTools()
   win.on('close', (event) => {
     win.hide()
-    //避免[clsoe]觸發[closed]
+    // 避免[clsoe]觸發[closed]
     event.preventDefault()
   })
   // When Window Close.
-  win.on('closed', () => {
+  win.on('closed', (event) => {
     win = null
     trayIcon = null
   })
@@ -74,20 +82,32 @@ function createWindow() {
 function createTray() {
   const iconPath = path.join(__dirname, 'static/cc.ico')
 
-  const contextMenu = Menu.buildFromTemplate([{
-    label: 'cc',
-    click() {
-      win.show()
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: 'cc',
+      click() {
+        win.show()
+      }
+    },
+    {
+      label: 'Quit',
+      click() {
+        let option = { 
+          type: 'info', 
+          title: '提示', 
+          message: '是否離開程式', 
+          buttons: ['是', '否']
+          // defaultId: 0,
+        }
+        dialog.showMessageBox(option, (response)=>{
+          if (response==0){
+            win.removeAllListeners('close')
+            win.close()
+          }
+        })
+      }
     }
-  },
-  {
-    label: 'Quit',
-    click() {
-      win.removeAllListeners('close')
-      win.close()
-    }
-  }
-  ]);
+  ])
 
   trayIcon = new Tray(iconPath)
   trayIcon.setToolTip('cc')
