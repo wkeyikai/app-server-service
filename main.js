@@ -1,3 +1,8 @@
+const path = require('path')
+const config = require('./config')
+// const url = require('url')
+const project = require('./project')
+const custom = project.run(config)
 const {
   app,
   BrowserWindow,
@@ -5,10 +10,6 @@ const {
   Menu,
   dialog
 } = require('electron')
-
-const path = require('path')
-const url = require('url')
-const express = require('./express-server.js')
 
 let trayIcon = null
 
@@ -50,13 +51,7 @@ function createWindow() {
   // win.removeMenu()
   // var menu = Menu.buildFromTemplate([])
   // Menu.setApplicationMenu(menu)
-
-  win.loadURL(express.path)
-  // win.loadURL(url.format({
-  //   pathname: path.join(__dirname, 'index.html'),
-  //   protocol: 'file:',
-  //   slashes: true
-  // }))
+  win.loadURL(custom.path)
   // win.once('ready-to-show', () => {
   //   child.show()
   // })
