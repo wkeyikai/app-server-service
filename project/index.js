@@ -4,7 +4,7 @@ let custom = {
 let run = ({ file, server })=>{
   if (server){
     let ws = require('./' + file)
-    custom = ws.run(server.port)
+    custom = ws.run(server)
   } else if (file){
     custom.path = `file://${__dirname}/${file}/index.html`
   }

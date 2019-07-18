@@ -13,7 +13,7 @@ app.get('/Hello', function (req, res) {
   res.send('Hello World~')
 })
 
-let run = (port) =>{
+let run = ({port}) =>{
   let host = `http://localhost:${port}/`
   let path = host
   app.listen(port, () => {
