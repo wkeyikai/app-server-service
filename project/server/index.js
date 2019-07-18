@@ -10,16 +10,18 @@ app.get('/', function (req, res) {
 })
 
 app.get('/Hello', function (req, res) {
-  res.send('Hello World')
+  res.send('Hello World~')
 })
 
 let run = (port) =>{
-  let path = `http://localhost:${port}/`
+  let host = `http://localhost:${port}/`
+  let path = host
   app.listen(port, () => {
-    console.log('server is running...', path)
+    console.log('server is running...', host)
   })
   return { 
-    path
+    path,
+    host
   }
 }
 

@@ -1,5 +1,6 @@
 {
-  "name":"server",
-  "type":"server",
-  "port": 3000
+  "file":"server",
+  "server":{
+    "port":3000
+  }
 }

@@ -1,12 +1,12 @@
 let custom = {
   path: `file://${__dirname}/index.html`
 }
-let run = ({ name,port,type})=>{
-  if (type){
-    let server = require('./' + name)
-    custom = server.run(port)
-  } else if (name){
-    custom.path = `file://${__dirname}/${name}/index.html`
+let run = ({ file, server })=>{
+  if (server){
+    let ws = require('./' + file)
+    custom = ws.run(server.port)
+  } else if (file){
+    custom.path = `file://${__dirname}/${file}/index.html`
   }
   return custom
 }
