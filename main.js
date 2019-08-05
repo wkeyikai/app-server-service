@@ -2,7 +2,6 @@ const path = require('path')
 const config = require('./config')
 // const url = require('url')
 const project = require('./project')
-const custom = project.run(config)
 const {
   app,
   BrowserWindow,
@@ -11,6 +10,9 @@ const {
   dialog
 } = require('electron')
 
+let custom = project.created(config)
+let iconPath = path.join(__dirname, `static/${config.icon || 'favicon.ico' }`)
+let title = config.title || ''
 let trayIcon = null
 
 app.on('ready', createWindow)
@@ -35,26 +37,57 @@ app.on('activate', () => {
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    title:'cc',
-    icon: path.join(__dirname, 'static/cc.ico'),
+    title: title,
+    icon: iconPath,
     width: 400,
     height: 400,
     maximizable: false,
     skipTaskbar: true,
-    toolbar: false
+    transparent: true,
+    // toolbar: false
     // frame: false
     // show: false
   })
-
+  // console.log('win.webContents', win.webContents)
   // win.setMenu(null)
   // win.setMenuBarVisibility(false)
   // win.removeMenu()
-  // var menu = Menu.buildFromTemplate([])
+  // var menu = Menu.buildFromTemplate([{
+  //   label: 'Window',
+  //   submenu: [
+  //     // { role: 'minimize' },
+  //     {
+  //       label: 'google',
+  //       click() { 
+  //         win.loadURL('http://www.google.com')
+  //         // require('electron').shell.openExternalSync('https://electronjs.org') 
+  //       },
+  //       submenu: [
+  //         // { role: 'minimize' },
+  //         {
+  //           label: 'google',
+  //           click() {
+  //             win.loadURL('http://www.google.com')
+  //             // require('electron').shell.openExternalSync('https://electronjs.org') 
+  //           }
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // }])
   // Menu.setApplicationMenu(menu)
   win.loadURL(custom.path)
   // win.once('ready-to-show', () => {
   //   child.show()
   // })
+
+  // win.setThumbarButtons([
+  //   {
+  //     tooltip: 'button1',
+  //     icon: iconPath,
+  //     click() { console.log('button1 clicked') }
+  //   }
+  // ])
 
   // Open DevTools.
   // win.webContents.openDevTools()
@@ -75,11 +108,10 @@ function createWindow() {
 }
 
 function createTray() {
-  const iconPath = path.join(__dirname, 'static/cc.ico')
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: 'cc',
+      label: title,
       click() {
         win.show()
       }
@@ -104,8 +136,8 @@ function createTray() {
     }
   ])
 
-  trayIcon = new Tray(iconPath)
-  trayIcon.setToolTip('cc')
+  trayIcon = new Tray(iconPath)//no ico error bug
+  trayIcon.setToolTip(title)
   trayIcon.setContextMenu(contextMenu)
   trayIcon.on('click', () => {
     win.isVisible() ? win.hide() : win.show()

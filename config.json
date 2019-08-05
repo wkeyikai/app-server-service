@@ -1,6 +1,5 @@
 {
   "file":"server",
-  "server":{
-    "port":3000
-  }
+  "title":"cc",
+  "icon":"favicon.ico"
 }
