@@ -15,6 +15,8 @@ let iconPath = path.join(__dirname, `static/${config.icon || 'favicon.ico' }`)
 let title = config.title || ''
 let trayIcon = null
 
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
+
 app.on('ready', createWindow)
 
 app.on('browser-window-created', (e, window) => {
@@ -44,6 +46,9 @@ function createWindow() {
     maximizable: false,
     skipTaskbar: true,
     transparent: true,
+    webPreferences:{
+      nodeIntegration: true
+    }
     // toolbar: false
     // frame: false
     // show: false
@@ -148,52 +153,4 @@ function createTray() {
   // win.on('hide', () => {
   //   trayIcon.setHighlightMode('never')
   // })
-}
-
-//產生捷徑讓使用者分辨操作
-var handleStartupEvent = function () {
-  if (process.platform !== 'win32') {
-    return false;
-  }
-
-  var squirrelCommand = process.argv[1]
-
-  switch (squirrelCommand) {
-    case '--squirrel-install':
-    case '--squirrel-updated':
-      install()
-      return true
-    case '--squirrel-uninstall':
-      uninstall()
-      app.quit()
-      return true
-    case '--squirrel-obsolete':
-      app.quit()
-      return true
-  }
-
-  function install() {
-    var cp = require('child_process')
-    var updateDotExe = path.resolve(path.dirname(process.execPath), '..', 'update.exe')
-    var target = path.basename(process.execPath)
-    var child = cp.spawn(updateDotExe, ["--createShortcut", target], { detached: true })
-    child.on('close', function (code) {
-      app.quit()
-    });
-  }
-
-  function uninstall() {
-    var cp = require('child_process')
-    var updateDotExe = path.resolve(path.dirname(process.execPath), '..', 'update.exe')
-    var target = path.basename(process.execPath)
-    var child = cp.spawn(updateDotExe, ["--removeShortcut", target], { detached: true })
-    child.on('close', function (code) {
-      app.quit()
-    });
-  }
-
-};
-
-if (handleStartupEvent()) {
-  return
 }

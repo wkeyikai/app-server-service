@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-packager . test --out=dist --overwrite --platform=win32 --arch=x64 --asar --icon=./static/cc.ico --ignore=node_modules/electron-* --electron-version=5.0.6 --version-string.CompanyName=test --version-string.ProductName=test",
-    "pack": "grunt"
+    "build": "electron-builder --dir",
+    "pack": "electron-builder"
   },
   "repository": {
     "type": "git",
@@ -19,12 +19,27 @@
   },
   "homepage": "https://github.com/wkeyikai/express-server#readme",
   "dependencies": {
-    "electron": "^5.0.6",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "sqlite3": "^4.0.9"
   },
   "devDependencies": {
-    "electron-packager": "^14.0.1",
-    "grunt": "^1.0.4",
-    "grunt-electron-installer": "^2.1.0"
+    "electron": "^5.0.6",
+    "electron-builder": "^21.2.0"
+  },
+  "build": {
+    "appId": "com.cilent.app.electronbuild",
+    "productName": "cc-build",
+    "directories": {
+      "output": "build"
+    },
+    "mac": {
+      "icon": "static/favicon.ico"
+    },
+    "win": {
+      "icon": "static/favicon.ico"
+    },
+    "linux": {
+      "icon": "static/favicon.ico"
+    }
   }
 }
