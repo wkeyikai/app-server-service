@@ -81,7 +81,7 @@ function createWindow() {
   //   ]
   // }])
   // Menu.setApplicationMenu(menu)
-  win.loadURL(custom.path)
+  win.loadURL(custom.url)
   // win.once('ready-to-show', () => {
   //   child.show()
   // })
@@ -95,7 +95,9 @@ function createWindow() {
   // ])
 
   // Open DevTools.
-  // win.webContents.openDevTools()
+  // if (process.env.NODE_ENV !== 'production'){
+  //   win.webContents.openDevTools()
+  // }
   win.on('close', (event) => {
     win.hide()
     // 避免[clsoe]觸發[closed]
@@ -105,6 +107,7 @@ function createWindow() {
   win.on('closed', (event) => {
     win = null
     trayIcon = null
+    // app.quit()
   })
 
   // Create Tray

@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "dev": "electron .",
     "build": "electron-builder --dir",
     "pack": "electron-builder"
   },
@@ -19,7 +19,10 @@
   },
   "homepage": "https://github.com/wkeyikai/express-server#readme",
   "dependencies": {
+    "child_process": "^1.0.2",
+    "element-ui": "^2.11.1",
     "express": "^4.17.1",
+    "nuxt": "^2.8.1",
     "sqlite3": "^4.0.9"
   },
   "devDependencies": {
@@ -32,6 +35,23 @@
     "directories": {
       "output": "build"
     },
+    "files": [
+      "!.nuxt",
+      "!package.json",
+      "!README.md",
+      "node_modules/**",
+      "project/nuxt/.nuxt/dist/**",
+      "project/nuxt/nuxt.config.js",
+      "project/nuxt/index.js",
+      "project/index.js",
+      "project/index.html",
+      "static/**",
+      "main.js",
+      "config.json"
+    ],
+    "extraResources": [
+      "./project/server/data/"
+    ],
     "mac": {
       "icon": "static/favicon.ico"
     },
